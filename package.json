@@ -26,6 +26,8 @@
     ]
   },
   "dependencies": {
+    "@styled-icons/material-outlined": "10.34.0",
+    "@styled-icons/remix-fill": "10.18.0",
     "cross-env": "^7.0.3",
     "next": "9.4.4",
     "next-pwa": "2.6.1",
