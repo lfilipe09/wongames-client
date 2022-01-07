@@ -15,7 +15,7 @@ describe('<Heading />', () => {
     })
   })
 
-  it('should render a white heading when color is pased', () => {
+  it('should render a white heading when color is passed', () => {
     renderWithTheme(<Heading color="white">Won Games</Heading>)
     expect(screen.getByRole('heading', { name: /won games/i })).toHaveStyle({
       color: '#FAFAFA'
@@ -53,6 +53,14 @@ describe('<Heading />', () => {
         modifier: '::after'
       }
     )
+  })
+
+  it('should render a heading with a huge size', () => {
+    renderWithTheme(<Heading size="huge">Won Games</Heading>)
+
+    expect(screen.getByRole('heading', { name: /won games/i })).toHaveStyle({
+      'font-size': '5.2rem'
+    })
   })
 
   it('should render a Heading with a primary line color', () => {

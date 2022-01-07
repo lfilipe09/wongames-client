@@ -4,6 +4,12 @@ import { renderWithTheme } from '../../utils/tests/helpers'
 import Logo from '.'
 
 describe('<Logo />', () => {
+  it('should render the logo with id passed', () => {
+    const { container } = renderWithTheme(<Logo id="myId" />)
+
+    expect(container.querySelector('#a_myId')).toBeInTheDocument()
+  })
+
   it('should render a white label by default', () => {
     //1º passo: renderizar o componente com o 'render'
     //2º passo: selecionar o elemetoa ser testado com o 'screen' que são as queries (getby...)
