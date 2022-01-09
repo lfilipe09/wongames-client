@@ -89,12 +89,13 @@ type MenuFullProps = {
 //overflow tá hidden para evitar qualquer scroll no menu
 // ele usa o > antes do svg pq fala "quero somente o primeiro filho e não todos os svg"
 export const MenuFull = styled.nav<MenuFullProps>`
-  ${({ isOpen, theme }) => css`
+  ${({ theme, isOpen }) => css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     background: ${theme.colors.white};
-    position: absolute;
+    position: fixed;
+    z-index: ${theme.layers.menu};
     top: 0;
     bottom: 0;
     left: 0;
@@ -104,25 +105,23 @@ export const MenuFull = styled.nav<MenuFullProps>`
     transition: opacity 0.3s ease-in-out;
     opacity: ${isOpen ? 1 : 0};
     pointer-events: ${isOpen ? 'all' : 'none'};
-
-    >svg{ 
+    visibility: ${isOpen ? 'visible' : 'hidden'};
+    > svg {
       position: absolute;
-      top:0;
+      top: 0;
       right: 0;
-      margin: ${theme.spacings.xsmall}
+      margin: ${theme.spacings.xsmall};
       cursor: pointer;
       width: 2.4rem;
       height: 2.4rem;
     }
-
-    ${MenuNav}{
+    ${MenuNav} {
       display: flex;
       align-items: center;
       justify-content: center;
       flex: 1;
       flex-direction: column;
     }
-
     ${MenuLink} {
       color: ${theme.colors.black};
       font-weight: ${theme.font.bold};
@@ -131,8 +130,7 @@ export const MenuFull = styled.nav<MenuFullProps>`
       transform: ${isOpen ? 'translateY(0)' : 'translateY(3rem)'};
       transition: transform 0.3s ease-in-out;
     }
-
-    ${RegisterBox}{
+    ${RegisterBox} {
       transform: ${isOpen ? 'translateY(0)' : 'translateY(3rem)'};
       transition: transform 0.3s ease-in-out;
     }
