@@ -9,11 +9,22 @@ export default {
     children: {
       type: 'string'
     },
+    size: {
+      control: {
+        type: 'select',
+        options: ['small', 'medium', 'large']
+      }
+    },
+    minimal: {
+      control: {
+        type: 'boolean'
+      }
+    },
     icon: {
       type: ''
     }
   }
-} as Meta
+} as Meta<ButtonProps>
 
 export const Default: Story<ButtonProps> = (args) => <Button {...args} />
 Default.args = {
