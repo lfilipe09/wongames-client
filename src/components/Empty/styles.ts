@@ -10,6 +10,11 @@ export const Wrapper = styled.div`
   }
 `
 
+export const Image = styled.img`
+  width: 380;
+  height: 285;
+`
+
 export const Title = styled.h2`
   ${({ theme }) => css`
     color: ${theme.colors.primary};

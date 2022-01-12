@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<Empty /> should render correctly 1`] = `
-.c3 {
+.c4 {
   background: linear-gradient( 180deg,#ff5f5f -14.51%,#f062c0 102.86%,#f23131 102.86% );
   cursor: pointer;
   color: #FAFAFA;
@@ -27,7 +27,7 @@ exports[`<Empty /> should render correctly 1`] = `
   padding: 0.8rem 3.2rem;
 }
 
-.c3:hover {
+.c4:hover {
   background: linear-gradient(180deg,#e35565 0%,#d958a6 50%);
 }
 
@@ -51,11 +51,16 @@ exports[`<Empty /> should render correctly 1`] = `
 }
 
 .c1 {
+  width: 380;
+  height: 285;
+}
+
+.c2 {
   color: #F231A5;
   font-size: 2.8rem;
 }
 
-.c2 {
+.c3 {
   color: #FAFAFA;
   font-size: 1.8rem;
   font-weight: 300;
@@ -69,22 +74,21 @@ exports[`<Empty /> should render correctly 1`] = `
     >
       <img
         alt="A gamer in a couch playing videogame"
-        height="285"
+        class="c1"
         src="/img/empty.svg"
-        width="380"
       />
       <h2
-        class="c1"
+        class="c2"
       >
         A simple title
       </h2>
       <p
-        class="c2"
+        class="c3"
       >
         A simple description
       </p>
       <a
-        class="c3"
+        class="c4"
         href="/"
       >
         <span>
