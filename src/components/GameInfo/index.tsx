@@ -4,17 +4,18 @@ import * as S from './styles'
 import { AddShoppingCart } from '@styled-icons/material-outlined/AddShoppingCart'
 import Ribbon from 'components/Ribbon'
 import { FavoriteBorder } from '@styled-icons/material-outlined'
+import formatPrice from 'utils/format-price'
 
 export type GameInfoProps = {
   title: string
   description: string
-  price: string
+  price: number
 }
 
 const GameInfo = ({ description, price, title }: GameInfoProps) => (
   <S.Wrapper>
     <Heading lineBottom>{title}</Heading>
-    <Ribbon>{`$${price}`}</Ribbon>
+    <Ribbon>{formatPrice(price)}</Ribbon>
     <S.Description>{description}</S.Description>
     <S.ButtonsWrapper>
       <Button icon={<AddShoppingCart />} size="large">
