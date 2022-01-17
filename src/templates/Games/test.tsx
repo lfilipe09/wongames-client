@@ -31,6 +31,12 @@ jest.mock('templates/Base', () => ({
     return <div data-testid="Mock Base">{children}</div>
   }
 }))
+jest.mock('next/link', () => ({
+  __esModule: true,
+  default: function Mock({ children }: { children: React.ReactNode }) {
+    return <div>{children}</div>
+  }
+}))
 describe('<Games />', () => {
   it('should render sections', async () => {
     renderWithTheme(

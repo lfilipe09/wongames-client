@@ -20,8 +20,13 @@ export async function getStaticProps() {
     data: { banners, newGames, freeGames, sections, upcomingGames }
   } = await apolloClient.query<QueryHome, QueryHomeVariables>({
     query: QUERY_HOME,
-    variables: { date: TODAY }
-  })
+    variables: { date: TODAY },
+    fetchPolicy: 'no-cache'
+  }) //o fetchPolicy existe apra não entrar em contradição com o revalidate
+  //no revalidate, nós precisamos atualizar o dado de tempos em tempo, mas para não
+  //correr o risco dele buscar o dado no cche do apollo e não atualizar o estático
+  //usa-se o fetchPolicy para não usar o cache e nem armazenar nele depois
+  //O no-cache garante dado novo em toda nova a geração do estático
 
   //faz lógica:
   //buscar dados API
@@ -29,8 +34,8 @@ export async function getStaticProps() {
 
   //e termina retornando dados
   return {
+    revalidate: 10,
     props: {
-      revalidate: 60,
       banners: bannerMapper(banners),
       newGames: gamesMapper(newGames),
       newGamesTitle: sections?.newGames?.title,

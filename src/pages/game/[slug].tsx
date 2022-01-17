@@ -40,6 +40,7 @@ export async function getStaticPaths() {
     query: QUERY_GAMES,
     variables: { limit: 9 }
   })
+  //no getStaticPaths não tem problema guardar os dados no cache, por isso não tem policy
 
   const paths = data.games.map(({ slug }) => ({
     params: { slug }
@@ -54,7 +55,13 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { data } = await apolloClient.query<
     QueryGameBySlug,
     QueryGameBySlugVariables
-  >({ query: QUERY_GAME_BY_SLUG, variables: { slug: `${params?.slug}` } })
+  >({
+    query: QUERY_GAME_BY_SLUG,
+    variables: { slug: `${params?.slug}` },
+    fetchPolicy: 'no-cache'
+  })
+  //os debaixo não tem problema gerar novo então não precisa por sem usar o cache
+  //Mas os dados do jogo quer sempre que gere novo
 
   //Se não tiver dado, ele joga para a página 404, esses comandos abaixo o next já entende
   if (!data.games.length) {
@@ -80,8 +87,8 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   })
 
   return {
+    revalidate: 60,
     props: {
-      revalidate: 60,
       cover: `http://localhost:1337${game.cover?.src}`,
       gameInfo: {
         title: game.name,
