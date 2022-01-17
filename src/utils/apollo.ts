@@ -1,18 +1,15 @@
-import {
-  ApolloClient,
-  HttpLink,
-  InMemoryCache,
-  NormalizedCacheObject
-} from '@apollo/client'
+import { ApolloClient, HttpLink, NormalizedCacheObject } from '@apollo/client'
 import { useMemo } from 'react'
+import apolloCache from './apolloCache'
 
-let apolloClient: ApolloClient<NormalizedCacheObject>
+//fala que o apolo pode começar com null par auqe não caia no if(exist) das funções do initializeApollo e useApollo
+let apolloClient: ApolloClient<NormalizedCacheObject | null>
 
 function createApolloClient() {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined', //true
     link: new HttpLink({ uri: 'http://localhost:1337/graphql' }),
-    cache: new InMemoryCache()
+    cache: apolloCache
   })
 }
 //o ssr ser window signidica que sempre ele vai verificar o
@@ -22,7 +19,7 @@ function createApolloClient() {
 //para que, caso já tenha uma instância do apollo, ele pegar
 //do cache
 
-export function initializeApollo(initialState = {}) {
+export function initializeApollo(initialState = null) {
   //serve para verificar se já existe uma instância para naõ criar outra
   const apolloClientGlobal = apolloClient ?? createApolloClient()
 
@@ -40,7 +37,7 @@ export function initializeApollo(initialState = {}) {
 }
 
 //use memo só executa se o initialState, para evitar que ele execute toda hora
-export function useApollo(initialState = {}) {
+export function useApollo(initialState = null) {
   const store = useMemo(() => initializeApollo(initialState), [initialState]) //quer fazer isso só quando o initialState mudar
   return store
 }

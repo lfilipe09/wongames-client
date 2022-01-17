@@ -10,6 +10,7 @@ import cardsMock from 'components/PaymentOptions/mock'
 import Cart from '.'
 
 const props = {
+  recommendedTitle: 'You may like this games',
   items: itemsMock,
   total: '$ 430,00',
   cards: cardsMock,
