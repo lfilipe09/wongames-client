@@ -1,11 +1,11 @@
-import { fireEvent, screen } from '@testing-library/react'
-import { renderWithTheme } from '../../utils/tests/helpers'
+import { fireEvent } from '@testing-library/react'
+import { render, screen } from 'utils/test-utils'
 
 import Menu from '.'
 
 describe('<Menu />', () => {
   it('should render the menu', () => {
-    renderWithTheme(<Menu />)
+    render(<Menu />)
 
     expect(screen.getByLabelText(/open menu/i)).toBeInTheDocument()
     expect(screen.getByLabelText(/search/i)).toBeInTheDocument()
@@ -13,7 +13,7 @@ describe('<Menu />', () => {
   })
 
   it('should handle the open/close mobile menu', () => {
-    renderWithTheme(<Menu />)
+    render(<Menu />)
     //selecionar o MenuFull
     const fullMenuElement = screen.getByRole('navigation', { hidden: true })
     //verificar se o menu tá escondido
@@ -30,7 +30,7 @@ describe('<Menu />', () => {
   })
 
   it('should show register box when logged out', () => {
-    renderWithTheme(<Menu />)
+    render(<Menu />)
 
     expect(screen.queryByText(/wishlist/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/my account/i)).not.toBeInTheDocument()
@@ -40,7 +40,7 @@ describe('<Menu />', () => {
   })
 
   it('should show wishlist and account when logged in', () => {
-    renderWithTheme(<Menu username={'Luis'} />)
+    render(<Menu username={'Luis'} />)
 
     expect(screen.queryByText(/log in now/i)).not.toBeInTheDocument()
     expect(screen.queryByText(/sign up/i)).not.toBeInTheDocument()

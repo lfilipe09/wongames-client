@@ -1,5 +1,5 @@
 import { Story, Meta } from '@storybook/react/types-6-0'
-import CartIcon, { CartIconProps } from '.'
+import CartIcon from '.'
 
 export default {
   title: 'CartIcon',
@@ -12,9 +12,12 @@ export default {
 } as Meta
 
 export const Default: Story = () => <CartIcon />
+export const withItems: Story = (args) => <CartIcon {...args} />
 
-export const withItems: Story<CartIconProps> = (args) => <CartIcon {...args} />
-
+//Se usa o cart contextvalue não tem a possibilidade de mudar na
+//interface do storybook, se deixa direto quantity: 3 , aí pode
 withItems.args = {
-  quantity: 4
+  cartContextValue: {
+    quantity: 3
+  }
 }
