@@ -1,20 +1,16 @@
 import { tint } from 'polished'
 import styled, { css } from 'styled-components'
 import media from 'styled-media-query'
-
 import * as EmptyStyles from 'components/Empty/styles'
-
-type Wrapperprops = {
+type WrapperProps = {
   isEmpty: boolean
 }
-
-export const Wrapper = styled.div<Wrapperprops>`
+export const Wrapper = styled.div<WrapperProps>`
   ${({ theme, isEmpty }) => css`
     background: ${theme.colors.white};
     display: flex;
     flex-direction: column;
     align-self: start;
-
     ${isEmpty &&
     css`
       ${EmptyStyles.Wrapper} {
@@ -34,6 +30,25 @@ export const Wrapper = styled.div<Wrapperprops>`
   `}
 `
 
+export const Loading = styled.div`
+  ${({ theme }) => css`
+    background: ${theme.colors.white};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40rem;
+    min-width: 56rem;
+    svg {
+      height: 10rem;
+      width: 10rem;
+    }
+  `}
+`
+export const GamesList = styled.div`
+  max-height: 40rem;
+  overflow-y: auto; //esse overflor ele, ao chegar na altura max, cria um scroll
+`
+
 export const Footer = styled.div`
   ${({ theme }) => css`
     background: ${tint(0.2, theme.colors.lightGray)};
@@ -50,7 +65,6 @@ export const Footer = styled.div`
     `};
   `}
 `
-
 export const Total = styled.span`
   ${({ theme }) => css`
     color: ${theme.colors.primary};

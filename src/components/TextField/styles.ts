@@ -29,6 +29,13 @@ export const Input = styled.input<IconPositionProps>`
     border: 0;
     outline: none;
     width: 100%;
+  
+    //remover aquele autofill do google que deixa azulzinho
+    //o filter none é pra remover do firefox que tem filtro só lá
+    &:-webkit-autofill{
+      -webkit-box-shadow: 0 0 0 ${theme.spacings.small} ${theme.colors.lightGray} inset;
+      filter: none
+    }
   `}
 `
 export const Label = styled.label`
