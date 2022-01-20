@@ -1,19 +1,26 @@
 import { ParsedUrlQueryInput } from 'querystring'
 import { useRouter } from 'next/router'
+
 import { useQueryGames } from 'graphql/queries/games'
 import { parseQueryStringToFilter, parseQueryStringToWhere } from 'utils/filter'
+
 import Base from 'templates/Base'
 import { KeyboardArrowDown as ArrowDown } from '@styled-icons/material-outlined/KeyboardArrowDown'
+
 import ExploreSidebar, { ItemProps } from 'components/ExploreSidebar'
 import GameCard from 'components/GameCard'
 import { Grid } from 'components/Grid'
+
 import * as S from './styles'
 import Empty from 'components/Empty'
+
 export type GamesTemplateProps = {
   filterItems: ItemProps[]
 }
+
 const GamesTemplate = ({ filterItems }: GamesTemplateProps) => {
   const { push, query } = useRouter()
+
   const { data, loading, fetchMore } = useQueryGames({
     notifyOnNetworkStatusChange: true,
     variables: {
@@ -36,9 +43,11 @@ const GamesTemplate = ({ filterItems }: GamesTemplateProps) => {
     })
     return
   }
+
   const handleShowMore = () => {
     fetchMore({ variables: { limit: 15, start: data?.games.length } })
   }
+
   return (
     <Base>
       <S.Main>
@@ -50,6 +59,7 @@ const GamesTemplate = ({ filterItems }: GamesTemplateProps) => {
           items={filterItems}
           onFilter={handleFilter}
         />
+
         <section>
           {data?.games.length ? (
             <>
@@ -74,7 +84,7 @@ const GamesTemplate = ({ filterItems }: GamesTemplateProps) => {
                       alt="Loading more games..."
                     />
                   ) : (
-                    <S.ShowMoreButton role="button" onClick={handleShowMore}>
+                    <S.ShowMoreButton onClick={handleShowMore}>
                       <p>Show More</p>
                       <ArrowDown size={35} />
                     </S.ShowMoreButton>
@@ -94,4 +104,5 @@ const GamesTemplate = ({ filterItems }: GamesTemplateProps) => {
     </Base>
   )
 }
+
 export default GamesTemplate

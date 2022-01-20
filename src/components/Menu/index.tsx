@@ -14,7 +14,7 @@ import CartIcon from 'components/CartIcon'
 import UserDropdown from 'components/UserDropdown'
 
 export type MenuProps = {
-  username?: string
+  username?: string | null
 }
 
 //dupla negação transforma em booleano para comparar de fato

@@ -1,51 +1,95 @@
-import { Email, Lock, AccountCircle } from '@styled-icons/material-outlined'
+import Link from 'next/link'
+import { AccountCircle, Email, Lock } from '@styled-icons/material-outlined'
+
+import { FormWrapper, FormLink, FormLoading } from 'components/Form'
 import Button from 'components/Button'
 import TextField from 'components/TextField'
-import { FormWrapper, FormLink } from 'components/Form'
-import Link from 'next/link'
+import { UsersPermissionsRegisterInput } from 'graphql/generated/globalTypes'
+import React, { useState } from 'react'
+import { useMutation } from '@apollo/client'
+import { MUTATION_REGISTER } from 'graphql/mutations/register'
+import { signIn } from 'next-auth/client'
+const FormSignUp = () => {
+  const [values, setValues] = useState<UsersPermissionsRegisterInput>({
+    username: '',
+    email: '',
+    password: ''
+  })
 
-const FormSignUp = () => (
-  <FormWrapper>
-    <form>
-      <TextField
-        name="name"
-        placeholder="Name"
-        type="name"
-        icon={<AccountCircle />}
-      />
+  //tem 2 error aqui, o de cime é: a requisição tá correta mas deu erro ao receber o dado ex: conta já exite
+  //o debaixo é err na requisição
+  //se não tiver erro na requisição, faça o sign in
+  const [createUser, { error, loading }] = useMutation(MUTATION_REGISTER, {
+    onError: (err) => console.log(err),
+    onCompleted: () => {
+      !error &&
+        signIn('credentials', {
+          email: values.email,
+          password: values.password,
+          callbackUrl: '/'
+        })
+    }
+  })
 
-      <TextField
-        name="email"
-        placeholder="Email"
-        type="email"
-        icon={<Email />}
-      />
+  const handleInput = (field: string, value: string) => {
+    setValues((s) => ({ ...s, [field]: value }))
+  }
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+    createUser({
+      variables: {
+        input: {
+          username: values.username,
+          email: values.email,
+          password: values.password
+        }
+      }
+    })
+  }
+  return (
+    <FormWrapper>
+      <form onSubmit={handleSubmit}>
+        <TextField
+          name="username"
+          placeholder="Username"
+          type="text"
+          onInputChange={(v) => handleInput('username', v)}
+          icon={<AccountCircle />}
+        />
+        <TextField
+          name="email"
+          placeholder="Email"
+          type="email"
+          onInputChange={(v) => handleInput('email', v)}
+          icon={<Email />}
+        />
+        <TextField
+          name="password"
+          placeholder="Password"
+          type="password"
+          onInputChange={(v) => handleInput('password', v)}
+          icon={<Lock />}
+        />
+        <TextField
+          name="confirm-password"
+          placeholder="Confirm password"
+          type="password"
+          onInputChange={(v) => handleInput('confirm-password', v)}
+          icon={<Lock />}
+        />
 
-      <TextField
-        name="password"
-        placeholder="Password"
-        type="password"
-        icon={<Lock />}
-      />
+        <Button type="submit" size="large" fullWidth disabled={loading}>
+          {loading ? <FormLoading /> : <span>Sign up now</span>}
+        </Button>
 
-      <TextField
-        name="password"
-        placeholder="Confirm password"
-        type="password"
-        icon={<Lock />}
-      />
-
-      <Button size="large" fullWidth>
-        Sign up now
-      </Button>
-      <FormLink>
-        Already have an account?{' '}
-        <Link href="sign-in">
-          <a>Sign in</a>
-        </Link>
-      </FormLink>
-    </form>
-  </FormWrapper>
-)
-
+        <FormLink>
+          Already have an account?{' '}
+          <Link href="/sign-in">
+            <a>Sign in</a>
+          </Link>
+        </FormLink>
+      </form>
+    </FormWrapper>
+  )
+}
 export default FormSignUp
