@@ -14,6 +14,16 @@ export const FormWrapper = styled.div`
     }
   `}
 `
+export const FormError = styled.div`
+  ${({ theme }) => css`
+    text-align: center;
+    color: red;
+    font-size: ${theme.font.sizes.small};
+    svg {
+      width: 1.6rem;
+    }
+  `}
+`
 
 export const FormLoading = styled.img.attrs(() => ({
   src: '/img/dots.svg',
@@ -36,6 +46,18 @@ export const FormLink = styled.div`
         color: ${darken(0.1, theme.colors.secondary)};
         border-bottom: 0.1rem solid ${darken(0.1, theme.colors.secondary)};
       }
+    }
+  `}
+`
+
+export const FormSuccess = styled.p`
+  ${({ theme }) => css`
+    text-align: center;
+    color: ${theme.colors.black};
+    font-size: ${theme.font.sizes.small};
+    svg {
+      color: ${theme.colors.secondary};
+      width: 2.4rem;
     }
   `}
 `
