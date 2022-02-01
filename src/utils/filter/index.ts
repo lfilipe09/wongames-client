@@ -1,9 +1,6 @@
 import { ItemProps } from 'components/ExploreSidebar'
 import { ParsedUrlQueryInput } from 'querystring'
 
-//O filter items deve pegar o nome do filtro para saber
-//onde o usuário clicou e também o type para saber se
-//é radio ou checkbox
 type ParseArgs = {
   queryString: ParsedUrlQueryInput
   filterItems: Pick<ItemProps, 'type' | 'name'>[]

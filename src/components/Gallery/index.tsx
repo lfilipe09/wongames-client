@@ -1,23 +1,25 @@
+import Image from 'next/image'
+
+import { useState, useEffect, useRef } from 'react'
 import { ArrowBackIos as ArrowLeft } from '@styled-icons/material-outlined/ArrowBackIos'
 import { ArrowForwardIos as ArrowRight } from '@styled-icons/material-outlined/ArrowForwardIos'
-
-import Slider, { SliderSettings } from 'components/Slider'
-import { useEffect, useState, useRef } from 'react'
 import { Close } from '@styled-icons/material-outlined/Close'
 import SlickSlider from 'react-slick'
 
+import Slider, { SliderSettings } from 'components/Slider'
+
 import * as S from './styles'
 
-const commomSettings: SliderSettings = {
-  arrows: true,
+const commonSettings: SliderSettings = {
   infinite: false,
   lazyLoad: 'ondemand',
+  arrows: true,
   nextArrow: <ArrowRight aria-label="next image" />,
   prevArrow: <ArrowLeft aria-label="previous image" />
 }
 
 const settings: SliderSettings = {
-  ...commomSettings,
+  ...commonSettings,
   slidesToShow: 4,
   responsive: [
     {
@@ -48,7 +50,7 @@ const settings: SliderSettings = {
 }
 
 const modalSettings: SliderSettings = {
-  ...commomSettings,
+  ...commonSettings,
   slidesToShow: 1
 }
 
@@ -71,7 +73,6 @@ const Gallery = ({ items }: GalleryProps) => {
     }
 
     window.addEventListener('keyup', handleKeyUp)
-
     return () => window.removeEventListener('keyup', handleKeyUp)
   }, [])
 
@@ -79,7 +80,9 @@ const Gallery = ({ items }: GalleryProps) => {
     <S.Wrapper>
       <Slider ref={slider} settings={settings}>
         {items.map((item, index) => (
-          <img
+          <Image
+            width={295}
+            height={165}
             role="button"
             key={`thumb-${index}`}
             src={item.src}
@@ -104,7 +107,13 @@ const Gallery = ({ items }: GalleryProps) => {
         <S.Content>
           <Slider ref={slider} settings={modalSettings}>
             {items.map((item, index) => (
-              <img key={`gallery-${index}`} src={item.src} alt={item.label} />
+              <Image
+                width={1200}
+                height={675}
+                key={`gallery-${index}`}
+                src={item.src}
+                alt={item.label}
+              />
             ))}
           </Slider>
         </S.Content>

@@ -1,0 +1,81 @@
+/// <reference path="../support/index.d.ts" />
+
+describe('Reset Password', () => {
+  it('should show error if password does not match', () => {
+    cy.visit('/reset-password?code=123456734')
+
+    cy.findAllByPlaceholderText(/^password/i).type('123')
+    cy.findAllByPlaceholderText(/confirm password/i).type('321')
+    cy.findByRole('button', {name: /reset password/i }).click()
+
+    cy.findByText(/confirm password does not match with password/i).should('exist')
+  })
+
+  it('should show error if code is not valid', () => {
+    cy.intercept('POST', '**/auth/reset-password', res => {
+      res.reply({
+        status: 400,
+        body: {
+          error: 'Bad Request',
+          message: [
+            {
+              messages: [
+                {
+                  message: 'Incorrect code provided'
+                }
+              ]
+            }
+          ]
+        }
+      })
+    })
+
+    cy.visit('/reset-password?code=wrong_code')
+
+    cy.findAllByPlaceholderText(/^password/i).type('123')
+    cy.findAllByPlaceholderText(/confirm password/i).type('123')
+    cy.findByRole('button', {name: /reset password/i }).click()
+
+    cy.findByText(/incorrect code provided/i).should('exist')
+  })
+
+  it.only('should fill the input and redirect to the home page with the user signed in', () => {
+    //interceptar as chamadas
+
+    //rota do nosso backend
+    cy.intercept('POST', '**/auth/reset-password', {
+      statusCode: 200,
+      body: {user: {email: 'email@email.com'}}
+    })
+
+    //rota do credentials do next-auth, o asterisco após = qualquer coisa quevier depois ele aceita
+    cy.intercept('POST', '**/auth/callback/credentials*', {
+      statusCode: 200,
+      body: {user:{email: 'email@email.com'}}
+    })
+
+
+    //rota de session do next-auth
+    //pra persistir o usuário entre as pags
+    cy.intercept('GET', '**/auth/session*', {
+      statusCode: 200,
+      body: {user:{name: 'filipe', email: 'email@email.com'}}
+    })
+
+    // usuario vai entrar na pagina de reset
+    cy.visit('reset-password?code=valid_token')
+
+    //vai preencher as senhas (com o token valido)
+    cy.findAllByPlaceholderText(/^password/i).type('123')
+    cy.findAllByPlaceholderText(/confirm password/i).type('123')
+    cy.findByRole('button', {name: /reset password/i }).click()
+
+    //o sign in acontece no background
+
+    //redireciona para a home
+    cy.url().should('eq', `${Cypress.config().baseUrl}/`)
+
+    //usuario logado com o name no menu
+    cy.findByText(/filipe/i).should('exist')
+  })
+})

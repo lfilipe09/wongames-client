@@ -1,10 +1,13 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
-import Ribbon, { RibbonSizes, RibbonColors } from '../../components/Ribbon'
-import * as S from './styles'
-import formatPrice from 'utils/format-price'
+import Ribbon, { RibbonColors, RibbonSizes } from 'components/Ribbon'
 import CartButton from 'components/CartButton'
 import WishlistButton from 'components/WishlistButton'
+
+import formatPrice from 'utils/format-price'
+
+import * as S from './styles'
 
 export type GameCardProps = {
   id: string
@@ -15,35 +18,35 @@ export type GameCardProps = {
   price: number
   promotionalPrice?: number
   ribbon?: React.ReactNode
-  ribbonSize?: RibbonSizes
   ribbonColor?: RibbonColors
+  ribbonSize?: RibbonSizes
 }
 
 const GameCard = ({
   id,
   slug,
+  title,
   developer,
   img,
   price,
-  title,
   promotionalPrice,
   ribbon,
-  ribbonSize = 'normal',
-  ribbonColor = 'primary'
+  ribbonColor = 'primary',
+  ribbonSize = 'small'
 }: GameCardProps) => (
-  <S.Wrapper>
+  <S.Wrapper data-cy="game-card">
     {!!ribbon && (
-      <Ribbon size={ribbonSize} color={ribbonColor}>
+      <Ribbon color={ribbonColor} size={ribbonSize}>
         {ribbon}
       </Ribbon>
     )}
-    <Link href={`game/${slug}`} passHref>
+    <Link href={`/game/${slug}`} passHref>
       <S.ImageBox>
-        <img src={img} alt={title} />
+        <Image src={img} alt={title} layout="fill" objectFit="cover" />
       </S.ImageBox>
     </Link>
     <S.Content>
-      <Link href={`game/${slug}`} passHref>
+      <Link href={`/game/${slug}`} passHref>
         <S.Info>
           <S.Title>{title}</S.Title>
           <S.Developer>{developer}</S.Developer>
